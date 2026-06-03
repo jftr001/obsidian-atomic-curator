@@ -2,6 +2,8 @@
 
 > Turn **book chapters (PDF/EPUB)** and raw highlights into clean, self-contained **atomic notes** — with AI, following Zettelkasten principles. For [Obsidian](https://obsidian.md).
 
+> 🚧 **Early and in active development.** This is a young, evolving project — shared openly so people can **use it, fork it, and shape it to their own workflow**. Expect rough edges. Bug reports, ideas, and pull requests are genuinely welcome, and you're free to use it however you like under the [MIT license](LICENSE).
+
 <!--
   GIF GOES HERE. Record a ~20s screen capture in Obsidian — the book flow sells best:
   1. Run "Curate from book (PDF/EPUB)", pick a book, choose a chapter.
@@ -87,7 +89,9 @@ Atomic Curator started as a personal curation system. Planned next:
 
 ## Contributing
 
-Issues and PRs welcome. To build locally:
+This project is meant to be improved by the people who use it. If something is broken, missing, or could work better for your workflow, open an issue or send a PR — small fixes and big ideas are equally welcome. Fork it and make it yours.
+
+To build locally:
 
 ```bash
 npm install
