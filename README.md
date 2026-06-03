@@ -4,15 +4,6 @@
 
 > 🚧 **Early and in active development.** This is a young, evolving project — shared openly so people can **use it, fork it, and shape it to their own workflow**. Expect rough edges. Bug reports, ideas, and pull requests are genuinely welcome, and you're free to use it however you like under the [MIT license](LICENSE).
 
-<!--
-  GIF GOES HERE. Record a ~20s screen capture in Obsidian — the book flow sells best:
-  1. Run "Curate from book (PDF/EPUB)", pick a book, choose a chapter.
-  2. Show the preview modal filling with atomic notes.
-  3. Click Create, show the new atomic notes appearing in the vault.
-  Save it as assets/demo.gif and the line below will display it.
--->
-![Atomic Curator demo](assets/demo.gif)
-
 ---
 
 Most AI note plugins **chat** with your notes. Atomic Curator does the opposite job: it **curates**. Point it at a book chapter (PDF or EPUB) or a pile of messy highlights, and it gives you back a set of true atomic notes — one idea each, self-contained, with a declarative title — ready to drop into your Zettelkasten.
