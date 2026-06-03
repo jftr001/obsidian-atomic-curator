@@ -1,9 +1,15 @@
-# Highlights — Thinking, Fast and Slow
+##### On attention and memory
 
-- System 1 operates automatically and quickly, with little or no effort and no sense of voluntary control. System 2 allocates attention to the effortful mental activities that demand it, including complex computations.
-- We can be blind to the obvious, and we are also blind to our blindness. The famous invisible gorilla experiment shows people fully miss a person in a gorilla suit when counting basketball passes.
-- The anchoring effect: when people consider a particular value for an unknown quantity before estimating it, their estimates stay close to the number they considered. Even obviously random anchors move judgments.
-- Page 87. The author thanks his collaborators.
-- Losses loom larger than gains. The pain of losing $100 is greater than the pleasure of gaining $100 — roughly twice as large. This asymmetry is loss aversion.
-- "Nothing in life is as important as you think it is while you are thinking about it." — the focusing illusion.
-- A reliable way to make people believe in falsehoods is frequent repetition, because familiarity is hard to distinguish from truth.
+- Intuition is recognition built from experience, nothing more. p.13
+- When a hard question is asked, the mind quietly answers an easier one instead, usually without noticing the swap. p.14
+	- "Should I invest in this stock?" silently becomes "Do I like this company?"
+- Intense focus on one task can make a person effectively blind to obvious things happening in plain sight. p.26
+	- In a famous study, viewers counting basketball passes fail to see a person in a gorilla suit walk across the screen. We are blind to the obvious, and blind to our blindness.
+- The page numbers and the author's acknowledgements. p.2
+
+##### On judgment
+
+- Considering any number before estimating an unknown quantity pulls the estimate toward that number — even when the number is obviously random. p.119
+- The pain of a loss is felt about twice as strongly as the pleasure of an equivalent gain. p.284
+- Repeating a statement often makes it feel true, because familiarity is easily mistaken for truth. p.62
+- "Nothing in life is as important as you think it is while you are thinking about it." p.402

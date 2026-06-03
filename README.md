@@ -47,7 +47,7 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 
 ### Via BRAT (test it now)
 1. Install the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin.
-2. In BRAT, **Add Beta Plugin** → `juanftrx/obsidian-atomic-curator`.
+2. In BRAT, **Add Beta Plugin** → `jftr001/obsidian-atomic-curator`.
 3. Enable **Atomic Curator** in Community Plugins.
 
 ### Manual
