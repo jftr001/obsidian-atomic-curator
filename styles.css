@@ -1,0 +1,85 @@
+/* Atomic Curator — preview modal styles */
+
+.atomic-curator-modal {
+	max-width: 720px;
+}
+
+.atomic-curator-modal .ac-summary {
+	color: var(--text-muted);
+	margin-bottom: 1em;
+}
+
+.atomic-curator-list {
+	max-height: 50vh;
+	overflow-y: auto;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	padding: 0.25em;
+}
+
+.atomic-curator-item {
+	display: flex;
+	gap: 0.6em;
+	padding: 0.6em;
+	border-radius: var(--radius-s);
+	align-items: flex-start;
+}
+
+.atomic-curator-item:hover {
+	background: var(--background-modifier-hover);
+}
+
+.atomic-curator-item + .atomic-curator-item {
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.atomic-curator-item input[type="checkbox"] {
+	margin-top: 0.3em;
+	flex-shrink: 0;
+}
+
+.atomic-curator-item-body {
+	flex: 1;
+	min-width: 0;
+}
+
+.atomic-curator-item-title {
+	font-weight: 600;
+	margin-bottom: 0.2em;
+}
+
+.atomic-curator-item-preview {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.atomic-curator-item-tags {
+	margin-top: 0.35em;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3em;
+}
+
+.atomic-curator-tag {
+	font-size: var(--font-smallest);
+	background: var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 0.05em 0.45em;
+	color: var(--text-muted);
+}
+
+.atomic-curator-actions {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1em;
+	gap: 0.6em;
+}
+
+.atomic-curator-actions .ac-select-toggle {
+	color: var(--text-muted);
+	cursor: pointer;
+	font-size: var(--font-smaller);
+}
