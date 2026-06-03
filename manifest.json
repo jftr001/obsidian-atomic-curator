@@ -1,7 +1,7 @@
 {
 	"id": "atomic-curator",
 	"name": "Atomic Curator",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"minAppVersion": "1.5.0",
 	"description": "Turn book chapters (PDF/EPUB) and raw highlights into clean, self-contained atomic notes with AI, following Zettelkasten principles.",
 	"author": "Juan Francisco",

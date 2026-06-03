@@ -6,12 +6,20 @@ import {
 	buildSystemPrompt,
 	buildUserPrompt,
 	parseAtomicNotes,
+	slugify,
+	sanitizeTitle,
 } from "./curator";
 import { PreviewModal } from "./preview-modal";
 import { buildBookSystemPrompt, buildBookUserPrompt } from "./book-prompt";
 import { BookModal, ExtractedChapter } from "./book-modal";
 
 const BOOK_MAX_TOKENS = 8192;
+
+/** Where the curated notes came from — fills the book/chapter YAML fields. */
+interface CurationSource {
+	book: string;
+	chapter: string;
+}
 
 export default class AtomicCuratorPlugin extends Plugin {
 	settings!: CuratorSettings;
@@ -85,7 +93,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 		}
 
 		new PreviewModal(this.app, notes, file.basename, (chosen) => {
-			void this.createNotes(chosen, file.basename);
+			void this.createNotes(chosen, { book: file.basename, chapter: "" });
 		}).open();
 	}
 
@@ -130,11 +138,14 @@ export default class AtomicCuratorPlugin extends Plugin {
 
 		const label = `${chapter.bookTitle} — ${chapter.chapterTitle}`;
 		new PreviewModal(this.app, notes, label, (chosen) => {
-			void this.createNotes(chosen, chapter.bookTitle);
+			void this.createNotes(chosen, {
+				book: chapter.bookTitle,
+				chapter: chapter.chapterTitle,
+			});
 		}).open();
 	}
 
-	private async createNotes(notes: AtomicNote[], sourceName: string): Promise<void> {
+	private async createNotes(notes: AtomicNote[], source: CurationSource): Promise<void> {
 		if (notes.length === 0) return;
 
 		const folder = this.settings.outputFolder.trim() || "Atomic Notes";
@@ -145,7 +156,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 		for (const note of notes) {
 			try {
 				const path = await this.uniquePath(folder, note.title);
-				await this.app.vault.create(path, this.renderNote(note, sourceName));
+				await this.app.vault.create(path, this.renderNote(note, source));
 				created++;
 			} catch (e) {
 				failures.push(note.title);
@@ -162,25 +173,32 @@ export default class AtomicCuratorPlugin extends Plugin {
 		}
 	}
 
-	private renderNote(note: AtomicNote, sourceName: string): string {
-		const parts: string[] = [];
-		if (this.settings.addTags && note.tags.length > 0) {
-			parts.push("---");
-			parts.push("tags:");
-			for (const tag of note.tags) parts.push(`  - ${tag}`);
-			parts.push("---");
-			parts.push("");
+	private renderNote(note: AtomicNote, source: CurationSource): string {
+		const lines: string[] = ["---"];
+		lines.push(`book: ${yamlString(source.book)}`);
+		lines.push(`chapter: ${yamlString(source.chapter)}`);
+		lines.push(`page: ${yamlString(note.page ?? "")}`);
+		lines.push(`lever: ${yamlString(note.lever)}`);
+		if (this.settings.addTags) {
+			lines.push("tags:");
+			if (source.book) lines.push(`  - book/${slugify(source.book)}`);
+			for (const theme of note.themes) lines.push(`  - theme/${slugify(theme)}`);
 		}
-		parts.push(`# ${note.title}`);
-		parts.push("");
-		parts.push(note.body);
-		if (this.settings.linkBackToSource) {
-			parts.push("");
-			parts.push("---");
-			parts.push(`Source: [[${sourceName}]]`);
+		if (note.themes.length > 0) {
+			lines.push("links:");
+			for (const theme of note.themes) lines.push(`  - "[[${theme}]]"`);
 		}
-		parts.push("");
-		return parts.join("\n");
+		lines.push("---");
+		lines.push("");
+		lines.push("> [!quote] Highlight");
+		lines.push(...calloutBody(note.highlight));
+		if (note.example) {
+			lines.push("");
+			lines.push("> [!example] Example");
+			lines.push(...calloutBody(note.example));
+		}
+		lines.push("");
+		return lines.join("\n");
 	}
 
 	private async ensureFolder(folder: string): Promise<void> {
@@ -192,7 +210,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 	}
 
 	private async uniquePath(folder: string, title: string): Promise<string> {
-		const base = sanitizeFilename(title) || "Untitled note";
+		const base = sanitizeTitle(title);
 		let candidate = normalizePath(`${folder}/${base}.md`);
 		let i = 2;
 		while (this.app.vault.getAbstractFileByPath(candidate)) {
@@ -203,11 +221,14 @@ export default class AtomicCuratorPlugin extends Plugin {
 	}
 }
 
-function sanitizeFilename(title: string): string {
-	return title
-		.replace(/[\\/:*?"<>|#^[\]]/g, "")
-		.replace(/\s+/g, " ")
-		.trim()
-		.slice(0, 100)
-		.replace(/[.\s]+$/, "");
+/** YAML double-quoted scalar; inner double quotes downgraded to single. */
+function yamlString(value: string): string {
+	return `"${value.replace(/"/g, "'")}"`;
+}
+
+/** Render text as Obsidian callout body lines (every line prefixed with >). */
+function calloutBody(text: string): string[] {
+	return text
+		.split("\n")
+		.map((line) => (line.trim().length > 0 ? `> ${line.trim()}` : ">"));
 }

@@ -48,6 +48,13 @@
 	margin-bottom: 0.2em;
 }
 
+.atomic-curator-item-lever {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+	font-style: italic;
+	margin-bottom: 0.2em;
+}
+
 .atomic-curator-item-preview {
 	color: var(--text-muted);
 	font-size: var(--font-smaller);

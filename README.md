@@ -24,10 +24,11 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 - ✅ **Curate from a book** — read a chapter straight from a PDF or EPUB in your vault.
 - ✅ **Curate the active note** — turn any note of raw highlights into atomic notes.
 - ✅ Preview-and-pick modal — nothing is created without your approval.
-- ✅ Auto-suggested tags (optional) and back-links to the source.
+- ✅ **Rich note format** — mechanism-based title, a `lever` phrase, `book`/`chapter`/`page` frontmatter, a verbatim Highlight callout, and an Example callout.
+- ✅ **Your own themes** — define your themes once in settings; each note is linked to 1–2 of them by mechanism (with matching `theme/…` tags and `[[Theme]]` links).
 - ✅ Bring your own Anthropic API key — no middle-man server, no subscription.
 - ✅ Choose your model: Haiku (fast/cheap), Sonnet (balanced), or Opus (best).
-- ✅ Writes notes in the book's own language; custom instructions field for your conventions.
+- ✅ Writes notes in the source's own language; custom instructions field for your conventions.
 
 ## How it works
 
@@ -47,6 +48,35 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 
 > **PDF support is new in 0.2** — works with text-based PDFs (not scanned images). If you hit a PDF that doesn't extract, please [open an issue](../../issues).
 
+## What a note looks like
+
+Each created note follows an atomic, Zettelkasten-friendly template — the filename is the title (no redundant H1):
+
+```markdown
+---
+book: "Atomic Habits"
+chapter: "The Law of Least Effort"
+page: ""
+lever: "behavior selection favors the highest value-to-effort ratio available"
+tags:
+  - book/atomic-habits
+  - theme/habit
+  - theme/cognition
+links:
+  - "[[Habit]]"
+  - "[[Cognition]]"
+---
+
+> [!quote] Highlight
+> Out of all the possible actions we could take, the one that is realized is the
+> one that delivers the most value for the least effort.
+
+> [!example] Example
+> The more energy a habit requires, the less likely it is to occur…
+```
+
+The `theme/…` tags and `[[Theme]]` links come from **your** theme list (configured in settings), chosen by mechanism — so the notes slot straight into your existing MOCs.
+
 ## Installation
 
 ### From the Community Plugins store
@@ -64,7 +94,11 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 
 ## Setup
 
-Open **Settings → Atomic Curator** and paste your Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com)). Pick a model and an output folder, and you're ready.
+Open **Settings → Atomic Curator** and:
+
+1. Paste your Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com)).
+2. Pick a model and an output folder.
+3. **List your themes** — one per line, optionally with a short description (e.g. `Habit — cue, routine, automaticity`). Each note is linked to 1–2 of these by mechanism. Leave it empty and the model will pick free-form themes instead.
 
 ## Privacy
 

@@ -5,7 +5,7 @@ export interface CuratorSettings {
 	apiKey: string;
 	model: string;
 	outputFolder: string;
-	linkBackToSource: boolean;
+	themes: string;
 	addTags: boolean;
 	maxNotes: number;
 	extraInstructions: string;
@@ -15,7 +15,7 @@ export const DEFAULT_SETTINGS: CuratorSettings = {
 	apiKey: "",
 	model: "claude-sonnet-4-6",
 	outputFolder: "Atomic Notes",
-	linkBackToSource: true,
+	themes: "",
 	addTags: true,
 	maxNotes: 0,
 	extraInstructions: "",
@@ -82,16 +82,20 @@ export class CuratorSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("Link back to source")
-			.setDesc("Add a link to the original note at the bottom of each atomic note.")
-			.addToggle((t) =>
-				t
-					.setValue(this.plugin.settings.linkBackToSource)
+			.setName("Themes")
+			.setDesc(
+				"Your themes, one per line. Notes are linked to 1-2 of these by mechanism. Optionally add a description after a dash (e.g. 'Habit — cue, routine, automaticity'). Leave empty to let the model pick free-form themes."
+			)
+			.addTextArea((ta) => {
+				ta.setPlaceholder("Cognition — biases, attention, memory\nHabit — cue, routine, automaticity\nReward — reinforcement, incentives")
+					.setValue(this.plugin.settings.themes)
 					.onChange(async (value) => {
-						this.plugin.settings.linkBackToSource = value;
+						this.plugin.settings.themes = value;
 						await this.plugin.saveSettings();
-					})
-			);
+					});
+				ta.inputEl.rows = 6;
+				ta.inputEl.style.width = "100%";
+			});
 
 		new Setting(containerEl)
 			.setName("Add tags")

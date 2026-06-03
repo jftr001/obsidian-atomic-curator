@@ -77,10 +77,11 @@ async function main(): Promise<void> {
 
 	// parseAtomicNotes robustness
 	const notes = parseAtomicNotes(
-		'Here you go:\n```json\n[{"title":"A","body":"b","tags":["x"]},{"title":"","body":"skip"}]\n```\nDone.'
+		'Here you go:\n```json\n[{"title":"A","lever":"how x causes y","themes":["Habit","Reward","Cognition"],"highlight":"h"},{"title":"","highlight":"skip"}]\n```\nDone.'
 	);
 	assert(notes.length === 1, `parseAtomicNotes drops invalid + strips fences (got ${notes.length})`);
-	assert(notes[0].tags[0] === "x", "tag preserved");
+	assert(notes[0].themes.length === 2, `themes capped at 2 (got ${notes[0].themes.length})`);
+	assert(notes[0].themes[0] === "Habit", "primary theme preserved");
 
 	console.log("\nDONE");
 }

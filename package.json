@@ -1,6 +1,6 @@
 {
 	"name": "atomic-curator",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "Turn book chapters (PDF/EPUB) and raw highlights into clean atomic notes with AI, following Zettelkasten principles.",
 	"main": "main.js",
 	"scripts": {

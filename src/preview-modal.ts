@@ -48,14 +48,20 @@ export class PreviewModal extends Modal {
 
 			const bodyWrap = item.createDiv({ cls: "atomic-curator-item-body" });
 			bodyWrap.createDiv({ cls: "atomic-curator-item-title", text: note.title });
+			if (note.lever) {
+				bodyWrap.createDiv({
+					cls: "atomic-curator-item-lever",
+					text: `lever: ${note.lever}`,
+				});
+			}
 			bodyWrap.createDiv({
 				cls: "atomic-curator-item-preview",
-				text: truncate(note.body, 240),
+				text: truncate(note.highlight, 240),
 			});
-			if (note.tags.length) {
+			if (note.themes.length) {
 				const tagsWrap = bodyWrap.createDiv({ cls: "atomic-curator-item-tags" });
-				note.tags.forEach((t) =>
-					tagsWrap.createSpan({ cls: "atomic-curator-tag", text: `#${t}` })
+				note.themes.forEach((t) =>
+					tagsWrap.createSpan({ cls: "atomic-curator-tag", text: t })
 				);
 			}
 		});
