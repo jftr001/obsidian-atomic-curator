@@ -4,6 +4,8 @@
 
 > 🚧 **Early and in active development.** This is a young, evolving project — shared openly so people can **use it, fork it, and shape it to their own workflow**. Expect rough edges. Bug reports, ideas, and pull requests are genuinely welcome, and you're free to use it however you like under the [MIT license](LICENSE).
 
+![An interconnected Obsidian vault of atomic notes linked to theme MOCs](assets/graph.png)
+
 ---
 
 Most AI note plugins **chat** with your notes. Atomic Curator does the opposite job: it **curates**. Point it at a book chapter (PDF or EPUB) or a pile of messy highlights, and it gives you back a set of true atomic notes — one idea each, self-contained, with a declarative title — ready to drop into your Zettelkasten.
@@ -48,9 +50,17 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 
 > **PDF support is new in 0.2** — works with text-based PDFs (not scanned images). If you hit a PDF that doesn't extract, please [open an issue](../../issues).
 
-## What a note looks like
+## From highlights to atomic notes
 
-Each created note follows an atomic, Zettelkasten-friendly template — the filename is the title (no redundant H1):
+You start with raw highlights (or a whole book chapter):
+
+![Raw book highlights in Obsidian](assets/highlights.png)
+
+…and get back clean, **atomic** notes — one idea each, with a mechanism-based title, a `lever`, source metadata, and links to your themes:
+
+![An atomic note created by Atomic Curator](assets/note.png)
+
+On disk it's plain, portable markdown — the filename is the title (no redundant H1):
 
 ```markdown
 ---
