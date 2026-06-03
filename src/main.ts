@@ -8,6 +8,10 @@ import {
 	parseAtomicNotes,
 } from "./curator";
 import { PreviewModal } from "./preview-modal";
+import { buildBookSystemPrompt, buildBookUserPrompt } from "./book-prompt";
+import { BookModal, ExtractedChapter } from "./book-modal";
+
+const BOOK_MAX_TOKENS = 8192;
 
 export default class AtomicCuratorPlugin extends Plugin {
 	settings!: CuratorSettings;
@@ -23,6 +27,12 @@ export default class AtomicCuratorPlugin extends Plugin {
 			id: "curate-active-note",
 			name: "Curate active note into atomic notes",
 			callback: () => void this.curateActiveNote(),
+		});
+
+		this.addCommand({
+			id: "curate-from-book",
+			name: "Curate from book (PDF/EPUB)",
+			callback: () => void this.curateFromBook(),
 		});
 
 		this.addSettingTab(new CuratorSettingTab(this.app, this));
@@ -75,11 +85,56 @@ export default class AtomicCuratorPlugin extends Plugin {
 		}
 
 		new PreviewModal(this.app, notes, file.basename, (chosen) => {
-			void this.createNotes(chosen, file);
+			void this.createNotes(chosen, file.basename);
 		}).open();
 	}
 
-	private async createNotes(notes: AtomicNote[], source: TFile): Promise<void> {
+	private async curateFromBook(): Promise<void> {
+		if (!this.settings.apiKey) {
+			new Notice("Add your Anthropic API key in Atomic Curator settings.");
+			return;
+		}
+		const books = this.app.vault.getFiles().filter((f) => {
+			const ext = f.extension.toLowerCase();
+			return ext === "pdf" || ext === "epub";
+		});
+		new BookModal(this.app, books, (chapter) =>
+			void this.runBookCuration(chapter)
+		).open();
+	}
+
+	private async runBookCuration(chapter: ExtractedChapter): Promise<void> {
+		const notice = new Notice("Atomic Curator: curating chapter…", 0);
+		let notes: AtomicNote[];
+		try {
+			const system = buildBookSystemPrompt(this.settings);
+			const user = buildBookUserPrompt(
+				chapter.bookTitle,
+				chapter.chapterTitle,
+				chapter.text
+			);
+			const raw = await callAnthropic(this.settings, system, user, BOOK_MAX_TOKENS);
+			notes = parseAtomicNotes(raw);
+		} catch (e) {
+			notice.hide();
+			const msg = e instanceof Error ? e.message : String(e);
+			new Notice(`Atomic Curator: ${msg}`, 8000);
+			return;
+		}
+		notice.hide();
+
+		if (notes.length === 0) {
+			new Notice("Atomic Curator: no atomic notes found in this chapter.");
+			return;
+		}
+
+		const label = `${chapter.bookTitle} — ${chapter.chapterTitle}`;
+		new PreviewModal(this.app, notes, label, (chosen) => {
+			void this.createNotes(chosen, chapter.bookTitle);
+		}).open();
+	}
+
+	private async createNotes(notes: AtomicNote[], sourceName: string): Promise<void> {
 		if (notes.length === 0) return;
 
 		const folder = this.settings.outputFolder.trim() || "Atomic Notes";
@@ -90,7 +145,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 		for (const note of notes) {
 			try {
 				const path = await this.uniquePath(folder, note.title);
-				await this.app.vault.create(path, this.renderNote(note, source));
+				await this.app.vault.create(path, this.renderNote(note, sourceName));
 				created++;
 			} catch (e) {
 				failures.push(note.title);
@@ -107,7 +162,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 		}
 	}
 
-	private renderNote(note: AtomicNote, source: TFile): string {
+	private renderNote(note: AtomicNote, sourceName: string): string {
 		const parts: string[] = [];
 		if (this.settings.addTags && note.tags.length > 0) {
 			parts.push("---");
@@ -122,7 +177,7 @@ export default class AtomicCuratorPlugin extends Plugin {
 		if (this.settings.linkBackToSource) {
 			parts.push("");
 			parts.push("---");
-			parts.push(`Source: [[${source.basename}]]`);
+			parts.push(`Source: [[${sourceName}]]`);
 		}
 		parts.push("");
 		return parts.join("\n");

@@ -3,7 +3,7 @@ import { CuratorSettings } from "./settings";
 
 const API_URL = "https://api.anthropic.com/v1/messages";
 const ANTHROPIC_VERSION = "2023-06-01";
-const MAX_TOKENS = 4096;
+const DEFAULT_MAX_TOKENS = 4096;
 
 /**
  * Call the Anthropic Messages API using Obsidian's requestUrl,
@@ -13,7 +13,8 @@ const MAX_TOKENS = 4096;
 export async function callAnthropic(
 	settings: CuratorSettings,
 	systemPrompt: string,
-	userPrompt: string
+	userPrompt: string,
+	maxTokens: number = DEFAULT_MAX_TOKENS
 ): Promise<string> {
 	if (!settings.apiKey) {
 		throw new Error("No Anthropic API key set. Add one in the plugin settings.");
@@ -30,7 +31,7 @@ export async function callAnthropic(
 		},
 		body: JSON.stringify({
 			model: settings.model,
-			max_tokens: MAX_TOKENS,
+			max_tokens: maxTokens,
 			system: systemPrompt,
 			messages: [{ role: "user", content: userPrompt }],
 		}),

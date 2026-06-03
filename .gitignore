@@ -15,5 +15,9 @@ main.js
 # obsidian
 data.json
 
+# generated at build time (inlined pdf.js worker)
+src/pdf-worker-inline.ts
+
 # Exclude macOS Finder (Desktop Services Store)
 .DS_Store
+test/out.cjs

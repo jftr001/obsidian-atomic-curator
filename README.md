@@ -1,19 +1,21 @@
 # Atomic Curator
 
-> Turn raw highlights and messy notes into clean, self-contained **atomic notes** — with AI, following Zettelkasten principles. For [Obsidian](https://obsidian.md).
+> Turn **book chapters (PDF/EPUB)** and raw highlights into clean, self-contained **atomic notes** — with AI, following Zettelkasten principles. For [Obsidian](https://obsidian.md).
 
 <!--
-  GIF GOES HERE. Record a ~15s screen capture in Obsidian:
-  1. Open a note full of book highlights.
-  2. Run "Curate active note into atomic notes".
-  3. Show the preview modal, then the new atomic notes appearing.
+  GIF GOES HERE. Record a ~20s screen capture in Obsidian — the book flow sells best:
+  1. Run "Curate from book (PDF/EPUB)", pick a book, choose a chapter.
+  2. Show the preview modal filling with atomic notes.
+  3. Click Create, show the new atomic notes appearing in the vault.
   Save it as assets/demo.gif and the line below will display it.
 -->
 ![Atomic Curator demo](assets/demo.gif)
 
 ---
 
-Most AI note plugins **chat** with your notes. Atomic Curator does the opposite job: it **curates**. You paste in a pile of book highlights or messy meeting notes, and it gives you back a set of true atomic notes — one idea each, self-contained, with a declarative title — ready to drop into your Zettelkasten.
+Most AI note plugins **chat** with your notes. Atomic Curator does the opposite job: it **curates**. Point it at a book chapter (PDF or EPUB) or a pile of messy highlights, and it gives you back a set of true atomic notes — one idea each, self-contained, with a declarative title — ready to drop into your Zettelkasten.
+
+It does the whole job end to end: **book file → atomic notes in your vault.**
 
 ## Why
 
@@ -26,19 +28,31 @@ Highlighting is easy. Turning highlights into notes you'll actually reuse is the
 
 ## Features
 
-- ✅ Curate the active note into atomic notes with one command.
+- ✅ **Curate from a book** — read a chapter straight from a PDF or EPUB in your vault.
+- ✅ **Curate the active note** — turn any note of raw highlights into atomic notes.
 - ✅ Preview-and-pick modal — nothing is created without your approval.
-- ✅ Auto-suggested tags (optional) and back-links to the source note.
+- ✅ Auto-suggested tags (optional) and back-links to the source.
 - ✅ Bring your own Anthropic API key — no middle-man server, no subscription.
 - ✅ Choose your model: Haiku (fast/cheap), Sonnet (balanced), or Opus (best).
-- ✅ Custom instructions field — enforce your own naming or language conventions.
+- ✅ Writes notes in the book's own language; custom instructions field for your conventions.
 
 ## How it works
 
+**From a book (PDF/EPUB):**
+
+1. Run **Curate from book (PDF/EPUB)** from the command palette.
+2. Pick a book file in your vault and click **Load**. For EPUB, choose a chapter; for PDF, choose a page range.
+3. Click **Extract & curate** — the chapter is read, distilled into atomic notes, and shown for review.
+4. Uncheck any you don't want, then **Create**.
+
+**From a note of highlights:**
+
 1. Open a note containing raw highlights or messy text.
 2. Run **Curate active note into atomic notes** (command palette, or the atom icon in the ribbon).
-3. Review the proposed atomic notes in the preview modal and uncheck any you don't want.
+3. Review the proposed atomic notes and uncheck any you don't want.
 4. Click **Create** — each selected note is written as its own file in your output folder.
+
+> **PDF support is new in 0.2** — works with text-based PDFs (not scanned images). If you hit a PDF that doesn't extract, please [open an issue](../../issues).
 
 ## Installation
 

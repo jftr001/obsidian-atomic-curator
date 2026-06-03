@@ -1,11 +1,11 @@
 {
 	"name": "atomic-curator",
-	"version": "0.1.0",
-	"description": "Turn raw highlights and messy notes into clean atomic notes with AI, following Zettelkasten principles.",
+	"version": "0.2.0",
+	"description": "Turn book chapters (PDF/EPUB) and raw highlights into clean atomic notes with AI, following Zettelkasten principles.",
 	"main": "main.js",
 	"scripts": {
-		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"dev": "node scripts/inline-pdf-worker.mjs && node esbuild.config.mjs",
+		"build": "node scripts/inline-pdf-worker.mjs && tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [
@@ -20,10 +20,15 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^20.12.7",
+		"@xmldom/xmldom": "^0.9.10",
 		"builtin-modules": "^3.3.0",
 		"esbuild": "0.20.2",
 		"obsidian": "latest",
 		"tslib": "2.6.2",
 		"typescript": "5.4.5"
+	},
+	"dependencies": {
+		"jszip": "^3.10.1",
+		"pdfjs-dist": "^6.0.227"
 	}
 }
